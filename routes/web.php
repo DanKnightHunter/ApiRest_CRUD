@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/articulos', 'ArticulosController@index');
+Route::post('/registrar', 'ArticulosController@registrar');
+Route::post('/modificar', 'ArticulosController@modificar');
+
