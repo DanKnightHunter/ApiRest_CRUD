@@ -15,7 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/articulos', 'ArticulosController@index');
+Route::get('/mostrar', 'ArticulosController@mostrar');
 Route::post('/registrar', 'ArticulosController@registrar');
-Route::post('/modificar', 'ArticulosController@modificar');
+Route::put('/modificar/{id}', 'ArticulosController@modificar');
+Route::delete('/eliminar/{id}', 'ArticulosController@eliminar');
+
 

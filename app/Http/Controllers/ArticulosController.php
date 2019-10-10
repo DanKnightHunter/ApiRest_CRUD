@@ -9,15 +9,13 @@ use Carbon\Carbon;
 class ArticulosController extends Controller
 {
     //
-    public function index(){
+    public function mostrar(){
     	$articulo = articulos::all();
     	return $articulo;
     }
     
     public function registrar(Request $request)
     {
-        $mytime = Carbon::now()->toDateTimeString();//Fecha sistema
-
     	$Rarticulo = new articulos();
     	$Rarticulo->nombre = $request->nombre;
         $Rarticulo->autor = $request->autor;
@@ -26,22 +24,32 @@ class ArticulosController extends Controller
 
         return  response()->json([
             'status' => 'ok',
-            'data' => 'Inserción correcta'
+            'data' => 'Insercion correcta'
         ], 200);
     }
 
     public function modificar(Request $request, $id)
     {
-        $MArticulos = articulo::find($id);
-        $MArticulos->nombre = $request->nombre;
-        $MArticulos->autor = $request->autor;
-        $MArticulos->contenido = $request->contenido;
-        $MArticulos->save();
+        $MArticulo = articulos::find($id);
+        $MArticulo->nombre = $request->nombre;
+        $MArticulo->autor = $request->autor;
+        $MArticulo->contenido = $request->contenido;
+        $MArticulo->save();
 
         return  response()->json([
             'status' => 'ok',
-            'data' => 'Modificación correcta'
+            'data' => 'Modificacion correcta'
         ], 200);
+    }
 
+    public function eliminar($id)
+    {
+        $EArticulo = articulos::find($id);
+        $EArticulo->delete();
+
+        return  response()->json([
+            'status' => 'ok',
+            'data' => 'Eliminacion correcta'
+        ], 200);
     }
 }
