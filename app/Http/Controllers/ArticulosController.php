@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\articulos;
 use Carbon\Carbon;
 
+//use App\articulos;
+use App\Http\Resources\articulos as articulosResource;
+
 class ArticulosController extends Controller
 {
     //
     public function mostrar(){
     	$articulo = articulos::all();
-    	return $articulo;
+    	return articulosResource::collection($articulo);
     }
     
     public function registrar(Request $request)
@@ -30,16 +33,24 @@ class ArticulosController extends Controller
 
     public function modificar(Request $request, $id)
     {
-        $MArticulo = articulos::find($id);
-        $MArticulo->nombre = $request->nombre;
-        $MArticulo->autor = $request->autor;
-        $MArticulo->contenido = $request->contenido;
-        $MArticulo->save();
+        if(articulo::where('id', $id)->exists()){
+            $MArticulo = articulos::find($id);
+            $MArticulo->nombre = $request->nombre;
+            $MArticulo->autor = $request->autor;
+            $MArticulo->contenido = $request->contenido;
+            $MArticulo->save();
 
-        return  response()->json([
-            'status' => 'ok',
-            'data' => 'Modificacion correcta'
-        ], 200);
+            return  response()->json([
+                'status' => 'ok',
+                'data' => 'Modificacion correcta'
+            ], 200);
+        }else{
+            return  response()->json([
+                'status' => 'ok',
+                'data' => 'Modificacion correcta'
+            ], 200);
+        }
+        
     }
 
     public function eliminar($id)
