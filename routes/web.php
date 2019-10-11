@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/articulos', 'ArticulosController@mostrar');
+Route::post('/articulos', 'ArticulosController@registrar');
+Route::put('/articulos/{id}', 'ArticulosController@modificar');
+Route::delete('/articulos/{id}', 'ArticulosController@eliminar');
+
+//Route::resource('articulos', 'ArticulosController');
