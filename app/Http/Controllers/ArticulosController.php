@@ -61,22 +61,22 @@ class ArticulosController extends Controller
 
     public function eliminar($id)
     {
-        if(articulos::where('id', $id)->exists())
+        $EArticulo = articulos::find($id);
+
+        if(!$EArticulo)
         {
-            $EArticulo = articulos::find($id);
-            $EArticulo->delete();
-
-            $jsonArticulos = articulosResource::collection(articulos::all());
-
-            return  response()->json([
-            'status' => '1',
-            'data' => $jsonArticulos
-            ], 200);
-        }else{
-            return  response()->json([
-                'status' => '0',
+            return response()->json([
+                'status' => false,
                 'data' => 'No se encontro id'
-            ], 200);
+                ], 404);
         }
+        $EArticulo->delete();
+
+        $resultado = new articulosResource($EArticulo);
+
+        return  response()->json([
+            'status' => true,
+            'data' => $resultado
+        ], 200);
     }
 }
