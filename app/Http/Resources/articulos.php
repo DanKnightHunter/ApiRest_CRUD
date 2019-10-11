@@ -17,6 +17,7 @@ class articulos extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
+            'autor' => $this->autor,
             'contenido' => $this->contenido,
         ];
     }

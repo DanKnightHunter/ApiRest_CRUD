@@ -25,29 +25,35 @@ class ArticulosController extends Controller
         $Rarticulo->contenido = $request->contenido;
         $Rarticulo->save();
 
+        $jsonArticulos = articulosResource::collection(articulos::all());
+
         return  response()->json([
-            'status' => 'ok',
-            'data' => 'Insercion correcta'
+            'status' => '1',
+            'data' => $jsonArticulos
         ], 200);
     }
 
     public function modificar(Request $request, $id)
     {
-        if(articulo::where('id', $id)->exists()){
+
+        if(articulos::where('id', $id)->exists()){
             $MArticulo = articulos::find($id);
             $MArticulo->nombre = $request->nombre;
             $MArticulo->autor = $request->autor;
             $MArticulo->contenido = $request->contenido;
             $MArticulo->save();
 
+            $jsonArticulos = articulosResource::collection(articulos::all());
+
             return  response()->json([
-                'status' => 'ok',
-                'data' => 'Modificacion correcta'
+                'status' => '1',
+                'data' => $jsonArticulos    
             ], 200);
+
         }else{
             return  response()->json([
-                'status' => 'ok',
-                'data' => 'Modificacion correcta'
+                'status' => '0',
+                'data' => 'No se encontro id'
             ], 200);
         }
         
@@ -55,12 +61,22 @@ class ArticulosController extends Controller
 
     public function eliminar($id)
     {
-        $EArticulo = articulos::find($id);
-        $EArticulo->delete();
+        if(articulos::where('id', $id)->exists())
+        {
+            $EArticulo = articulos::find($id);
+            $EArticulo->delete();
 
-        return  response()->json([
-            'status' => 'ok',
-            'data' => 'Eliminacion correcta'
-        ], 200);
+            $jsonArticulos = articulosResource::collection(articulos::all());
+
+            return  response()->json([
+            'status' => '1',
+            'data' => $jsonArticulos
+            ], 200);
+        }else{
+            return  response()->json([
+                'status' => '0',
+                'data' => 'No se encontro id'
+            ], 200);
+        }
     }
 }
