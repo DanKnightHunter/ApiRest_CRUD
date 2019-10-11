@@ -28,7 +28,7 @@ class ArticulosController extends Controller
         $jsonArticulos = articulosResource::collection(articulos::all());
 
         return  response()->json([
-            'status' => '1',
+            'status' => true,
             'data' => $jsonArticulos
         ], 200);
     }
@@ -36,26 +36,26 @@ class ArticulosController extends Controller
     public function modificar(Request $request, $id)
     {
 
-        if(articulos::where('id', $id)->exists()){
-            $MArticulo = articulos::find($id);
-            $MArticulo->nombre = $request->nombre;
-            $MArticulo->autor = $request->autor;
-            $MArticulo->contenido = $request->contenido;
-            $MArticulo->save();
-
-            $jsonArticulos = articulosResource::collection(articulos::all());
-
+        $articulo = articulos::find($id);
+        
+        if(!$articulo){
             return  response()->json([
-                'status' => '1',
-                'data' => $jsonArticulos    
-            ], 200);
-
-        }else{
-            return  response()->json([
-                'status' => '0',
+                'status' => false,
                 'data' => 'No se encontro id'
-            ], 200);
+            ], 404);
         }
+ 
+        $articulo->nombre = $request->nombre;
+        $articulo->autor = $request->autor;
+        $articulo->contenido = $request->contenido;
+        $articulo->save();
+
+        $resultado = new articulosResource($articulo);
+
+        return  response()->json([
+            'status' => true,
+            'data' => $resultado    
+        ], 200);
         
     }
 
