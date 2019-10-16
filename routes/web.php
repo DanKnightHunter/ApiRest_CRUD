@@ -15,9 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/articulos', 'ArticulosController@mostrar');
-Route::post('/articulos', 'ArticulosController@registrar');
-Route::put('/articulos/{id}', 'ArticulosController@modificar');
-Route::delete('/articulos/{id}', 'ArticulosController@eliminar');
+//Route::get('/articulos', 'ArticulosController@mostrar');
+//Route::post('/registrar', 'ArticulosController@registrar');
+//Route::put('/articulos/{id}', 'ArticulosController@modificar');
+//Route::delete('/articulos/{id}', 'ArticulosController@eliminar');
 
-//Route::resource('articulos', 'ArticulosController');
+//Route::get('/articulos', function(){
+	//return 'Peticion GET';
+//})->middleware('peticion');
+
+Route::group(['middleware' => ['peticion']], function(){
+	Route::get('/articulos', 'ArticulosController@mostrar');
+	Route::post('/articulos', 'ArticulosController@registrar');
+	Route::put('/articulos/{id}', 'ArticulosController@modificar');
+	Route::delete('/articulos/{id}', 'ArticulosController@eliminar');
+});

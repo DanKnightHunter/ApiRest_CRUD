@@ -19,6 +19,7 @@ class ArticulosController extends Controller
     
     public function registrar(Request $request)
     {
+        //dd('entro');
     	$Rarticulo = new articulos();
     	$Rarticulo->nombre = $request->nombre;
         $Rarticulo->autor = $request->autor;
@@ -61,6 +62,8 @@ class ArticulosController extends Controller
 
     public function eliminar($id)
     {
+        dd($id);
+
         $EArticulo = articulos::find($id);
 
         if(!$EArticulo)
